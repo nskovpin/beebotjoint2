@@ -1,0 +1,143 @@
+{
+  "id": "3",
+  "name": "Проблемы с интернетом 1",
+  "steps": [
+    {
+      "name": "Глассфиш",
+      "type": "flow",
+      "instruction": {
+        "name": "GLASSFISH_instruction",
+        "params": {
+          "name": "CP",
+          "password": "CP",
+          "service": "TroubleTicket",
+          "url": "http://ms-glass018:5678/CasetoTTGetTT"
+        }
+      },
+      "ref": "Analyze tt",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Analyze tt",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "is",
+          "value": "true",
+          "ref": "Перевод на оператора"
+        },
+        {
+          "condition": "is",
+          "value": "false",
+          "ref": "Роуминг или домашняя сеть"
+        }
+      ],
+      "error": "Ошибка"
+    },
+
+    {
+      "name": "Роуминг или домашняя сеть",
+      "type": "flow",
+      "instruction": {
+        "name": "TSMS_instruction",
+        "params": {
+          "name": "BOT",
+          "password": "123456aA",
+          "service": "LocationService",
+          "url": "http://192.168.151.139//smsw/apiv3.php"
+        }
+      },
+      "ref": "Проверка роуминга",
+      "error": "Ошибка"
+    },
+
+    {
+      "name": "Проверка роуминга",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "is",
+          "value": "true",
+          "ref": "end"
+        },
+        {
+          "condition": "is",
+          "value": "false",
+          "ref": "Запрос SOC"
+        }
+      ],
+      "error": "Ошибка"
+    },
+
+    {
+      "name": "Запрос SOC",
+      "type": "flow",
+      "instruction": {
+        "name": "GLASSFISH_instruction",
+        "params": {
+          "name": "CP",
+          "password": "CP",
+          "service": "SubscriberTypeStateSOCs",
+          "url": "http://dr-glass016:3460/SubServiceSoap/",
+          "additionalParams":[{"key":"period", "value":"14"}]
+        }
+      },
+      "ref": "end",
+      "error": "Ошибка"
+    },
+
+    {
+      "name": "Ошибка",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Уважаемый пользователь, возникла ошибка"
+          }
+        }
+      },
+      "ref": "end"
+    },
+
+    {
+      "name": "end",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Мы все закончили"
+          }
+        }
+      },
+      "ref": "end",
+      "error": "Ошибка"
+    },
+
+    {
+      "name": "Перевод на оператора",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Мы переводим Вас на оператора"
+          }
+        }
+      },
+      "ref": "end",
+      "error": "Ошибка"
+    }
+
+  ]
+}

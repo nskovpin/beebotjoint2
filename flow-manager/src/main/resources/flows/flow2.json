@@ -1,0 +1,173 @@
+{
+  "id": "4",
+  "name": "Проблемы с интернетом 0",
+  "steps": [
+    {
+      "name": "Запрос на авторизацию/решение",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Вам необходимо сделать выбор. Авторизация VS Решение проблемы"
+          }
+        }
+      },
+      "ref": "Обработка ответа на авторизацию/решение",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Обработка ответа на авторизацию/решение",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Авторизация",
+          "ref": "Авторизация"
+        },
+        {
+          "condition": "equals",
+          "value": "Решение проблемы",
+          "ref": "Решение проблемы"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "Авторизация",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Пожалуйста, выберите какую-нибудь из этих опций"
+          }
+        }
+      },
+      "ref": "Обработка ответа выбора опций",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Обработка ответа выбора опций",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction",
+        "params": {
+          "args":["location", "oneRow"]
+        }
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Ручками",
+          "ref": "manual auth"
+        },
+        {
+          "condition": "equals",
+          "value": "Автоматически",
+          "ref": "Auto"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "manual auth",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Пожалуйста, введи свой адрес (мне от тебя нужны только город и улица:)"
+          }
+        }
+      },
+      "ref": "checkLocation",
+      "error": "Ошибка"
+    },
+    {
+      "name": "checkLocation",
+      "type": "bot",
+      "instruction": {
+        "name": "CHECK_LOCATION_instruction"
+      },
+      "ref": "Анализ локации",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Анализ локации",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Да",
+          "ref": "Глассфиш"
+        },
+        {
+          "condition": "equals",
+          "value": "Нет",
+          "ref": "Глассфиш"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "Глассфиш",
+      "type": "flow",
+      "instruction": {
+        "name": "GLASSFISH_instruction",
+        "params": {
+          "name": "CP",
+          "password": "CP",
+          "service": "CaseList",
+          "url": "http://ms-glass006:4466/CRMOperationsUrl"
+        }
+      },
+      "ref": "Analyze cases",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Analyze cases",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "CLOSED",
+          "ref": "end"
+        },
+        {
+          "condition": "equals",
+          "value": "Open",
+          "ref": "end"
+        },
+        {
+          "condition": "equals",
+          "value": "Closed",
+          "ref": "end"
+        },
+        {
+          "condition": "equals",
+          "value": "None",
+          "ref": "end"
+        },
+        {
+          "condition": "equals",
+          "value": "ClosedInPeriod",
+          "ref": "end"
+        }
+      ],
+      "error": "Ошибка"
+    }
+  ]
+}

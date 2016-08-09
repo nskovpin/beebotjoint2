@@ -1,0 +1,155 @@
+{
+  "name": "internet_problems",
+  "steps": [
+    {
+      "q": {
+        "type": "static",
+        "text": "Вам необходимо сделать выбор. Авторизация VS Решение проблемы"
+      },
+      "name": "start",
+      "type": "bot",
+      "a": {
+        "type": "choose",
+        "choices": [
+          {
+            "text": "Авторизация",
+            "ref": "auth"
+          },
+          {
+            "text": "Решить проблему",
+            "ref": "ask problem"
+          }
+        ]
+      }
+    },
+    {
+      "q": {
+        "type": "static",
+        "text": "Напишите свою проблему и мы постараемся ее решить"
+      },
+      "name": "ask problem",
+      "type": "bot",
+      "a": {
+        "type": "input",
+        "ref": "solve problem"
+      }
+    },
+    {
+      "q": {
+        "type": "dynamic",
+        "constructor": "solveProblem"
+      },
+      "name": "solve problem",
+      "type": "bot",
+      "a": {
+        "type": "choose",
+        "choices": [
+          {
+            "text": "Да",
+            "ref": "end"
+          },
+          {
+            "text": "Нет",
+            "ref": "end"
+          }
+        ]
+      }
+    },
+    {
+      "q": {
+        "type": "static",
+        "text": "Пожалуйста, выберите какую-нибудь из этих опций"
+      },
+      "name": "auth",
+      "type": "bot",
+      "a": {
+        "type": "choose",
+        "choices": [
+          {
+            "text": "Ручками",
+            "ref": "manual auth"
+          },
+          {
+            "text": "Автоматически",
+            "ref": "auto auth",
+            "params": [
+              "location"
+              ]
+          }
+        ],
+        "params": [
+          "oneRow"
+          ]
+      }
+    },
+    {
+      "q": {
+        "type": "static",
+        "text": "Пожалуйста, введи свой адрес (мне от тебя нужны только город и улица:)"
+      },
+      "name": "manual auth",
+      "type": "bot",
+      "a": {
+        "type": "input",
+        "ref": "check location"
+      }
+    },
+    {
+      "q": {
+        "type": "dynamic",
+        "constructor": "checkLocation"
+      },
+      "name": "check location",
+      "type": "bot",
+      "a": {
+        "type": "choose",
+        "choices": [
+          {
+            "text": "yes",
+            "ref": "end"
+          },
+          {
+            "text": "no",
+            "ref": "manual auth"
+          }
+        ]
+      }
+    },
+    {
+      "q": {
+        "type": "static",
+        "text": "autoAuth"
+      },
+      "name": "auto auth",
+      "type": "bot",
+      "a": {
+        "type": "input",
+        "ref": "end"
+      }
+    },
+    {
+      "name": "end",
+      "type": "flow manager",
+      "a": {
+        "name": "CP",
+        "password": "password",
+        "service": "SubscribeInfoBindingPort",
+        "url": "http://dr-glass016:3460/SubServiceSoap/",
+        "args": [
+          "corebalance",
+          "state"
+        ],
+        "ref": "operator"
+      }
+    },
+    {
+      "q": {
+        "type": "static",
+        "text": "ok"
+      },
+      "name": "operator",
+      "type": "bot"
+
+    }
+  ]
+}

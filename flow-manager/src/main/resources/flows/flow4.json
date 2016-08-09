@@ -1,0 +1,45 @@
+{
+  "id": "4",
+  "name": "Проблемы с интернетом 2",
+  "steps": [
+    {
+      "name": "manual auth",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Пожалуйста, введи свой адрес (мне от тебя нужны только город и улица:)"
+          }
+        }
+      },
+      "ref": "checkLocation",
+      "error": "Ошибка"
+    },
+    {
+      "name": "checkLocation",
+      "type": "bot",
+      "instruction": {
+        "name": "CHECK_LOCATION_instruction"
+      },
+      "ref": "Анализ локации",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Ошибка",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Уважаемый пользователь, возникла ошибка"
+          }
+        }
+      },
+      "ref": "end"
+    }
+
+  ]
+}

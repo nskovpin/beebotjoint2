@@ -1,0 +1,128 @@
+{
+  "id": "0",
+  "name": "Conversation with subscriber",
+  "steps": [
+    {
+      "name": "Запрос на авторизацию/решение",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Вам необходимо сделать выбор. Авторизация VS Решение проблемы"
+          }
+        }
+      },
+      "ref": "Обработка ответа на авторизацию/решение",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Обработка ответа на авторизацию/решение",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Авторизация",
+          "ref": "Авторизация"
+        },
+        {
+          "condition": "equals",
+          "value": "Решение проблемы",
+          "ref": "Решение проблемы"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "Авторизация",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Пожалуйста, выберите какую-нибудь из этих опций"
+          }
+        }
+      },
+      "ref": "Обработка ответа выбора опций",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Обработка ответа выбора опций",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction",
+        "params": {
+          "args":["location", "oneRow"]
+        }
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Ручками",
+          "ref": "end"
+        },
+        {
+          "condition": "equals",
+          "value": "Автоматически",
+          "ref": "end"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "Решение проблемы",
+      "type": "bot",
+      "instruction": {
+        "name": "SOLVE_PROBLEM_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Пожалуйста, выберите какую-нибудь из этих опций"
+          }
+        }
+      },
+      "ref": "Обработка правильности флоу",
+      "error": "Ошибка"
+    },
+    {
+      "name": "Обработка правильности флоу",
+      "type": "bot",
+      "instruction": {
+        "name": "DECISION_instruction"
+      },
+      "decisions": [
+        {
+          "condition": "equals",
+          "value": "Да",
+          "ref": "@FLOWS"
+        },
+        {
+          "condition": "equals",
+          "value": "Нет",
+          "ref": "end"
+        }
+      ],
+      "error": "Ошибка"
+    },
+    {
+      "name": "Ошибка",
+      "type": "bot",
+      "instruction": {
+        "name": "REQUEST_instruction",
+        "params": {
+          "question": {
+            "type": "static",
+            "text": "Уважаемый пользователь, возникла ошибка"
+          }
+        }
+      },
+      "ref": "end"
+    }
+  ]
+}

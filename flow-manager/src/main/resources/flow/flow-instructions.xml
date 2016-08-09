@@ -1,0 +1,124 @@
+<instructions>
+    <instruction name="CHECK_CURRENT_STEP_instruction" link="Проверить абонента в базе"></instruction>
+
+    <instruction name="GLASSFISH_instruction" link="Баланс и состояние">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>SubscribeInfoBindingPort</service>
+            <url>http://dr-glass016:3460/SubServiceSoap/</url>
+            <args>
+                <value>corebalance</value>
+                <value>state</value>
+            </args>
+        </params>
+    </instruction>
+
+
+    <instruction name="GLASSFISH_instruction" link="Тип абонента">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>SubscriberType</service>
+            <url>http://dr-glass016:3460/SubServiceSoap/</url>
+        </params>
+    </instruction>
+
+    <instruction name="GLASSFISH_instruction" link="Параметры и список подключенных услуг абонента">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>SubscriberTypeStateSOCs</service>
+            <url>http://dr-glass016:3460/SubServiceSoap/</url>
+            <additionalParams>
+                <additionalParam>
+                    <key>period</key>
+                    <value>40</value>
+                </additionalParam>
+            </additionalParams>
+        </params>
+    </instruction>
+
+    <instruction name="GLASSFISH_instruction" link="Наличие заданий по типу">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>CaseList</service>
+            <url>http://ms-glass006:4466/CRMOperationsUrl</url>
+            <additionalParams>
+                <additionalParam>
+                    <key>period</key>
+                    <value>14</value>
+                </additionalParam>
+            </additionalParams>
+        </params>
+    </instruction>
+
+    <instruction name="GLASSFISH_instruction" link="Инциденты в регионе">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>TroubleTicket</service>
+            <url>http://ms-glass018:5678/CasetoTTGetTT</url>
+            <!--<additionalParams>-->
+                <!--<additionalParam>-->
+                    <!--<key>longitude</key>-->
+                    <!--<value>12.1</value>-->
+                <!--</additionalParam>-->
+                <!--<additionalParam>-->
+                    <!--<key>latitude</key>-->
+                    <!--<value>11.5</value>-->
+                <!--</additionalParam>-->
+            <!--</additionalParams>-->
+        </params>
+    </instruction>
+
+    <instruction name="GLASSFISH_instruction" link="Баланс">
+        <params>
+            <name>CP</name>
+            <password>CP</password>
+            <service>SubscriberCoreBalance</service>
+            <url>http://dr-glass016:3460/SubServiceSoap/</url>
+            <args>
+                <value>corebalance</value>
+            </args>
+        </params>
+    </instruction>
+
+    <instruction name="TSMS_instruction" link="Пароль для местоположения">
+        <params>
+            <name>BOT</name>
+            <password>123456aA</password>
+            <service>TokenService</service>
+            <url>http://192.168.151.139//smsw/apiv3.php</url>
+        </params>
+    </instruction>
+
+    <instruction name="TSMS_instruction" link="Местоположение">
+        <params>
+            <name>BOT</name>
+            <password>123456aA</password>
+            <service>LocationService</service>
+            <url>http://192.168.151.139//smsw/apiv3.php</url>
+        </params>
+    </instruction>
+
+    <instruction name="RETURN_RESULT_instruction" link="Возвратить результат">
+        <params>
+            <name>test</name>
+            <password>test</password>
+            <!--<url>http://10.127.243.146:8080/postResult</url>-->
+            <url>http://172.21.162.56/bot-api/workflow/process</url>
+        </params>
+    </instruction>
+
+    <instruction name="ERROR_instruction" link="Ошибка">
+        <params>
+            <name>test</name>
+            <password>test</password>
+            <url>http://localhost:8080/postError</url>
+            <!--<url>http://172.21.162.56/bot-api/workflow/process</url>-->
+        </params>
+    </instruction>
+
+</instructions>
